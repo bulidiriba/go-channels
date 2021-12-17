@@ -2,12 +2,14 @@ package main
 
 import "fmt"
 
+func hello(done chan bool) {
+	fmt.Println("Hello world goroutine")
+	done <- true
+}
+
 func main() {
-	var a chan int // empty channel created
-	if a == nil {
-		fmt.Println("channel a is nil, going to define it")
-		a = make(chan int) // channel defined
-		fmt.Printf("Type of a is %T", a)
-		fmt.Println("Channel is: ", a)
-	}
+	done := make(chan bool)
+	go hello(done)
+	<-done
+	fmt.Println("main function")
 }
